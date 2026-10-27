@@ -24,7 +24,7 @@ final class StatisticsViewController: UIViewController {
     private func setupCollection() {
         collectionView.dataSource = self
         collectionView.delegate = self
-        collectionView.register(UICollectionViewCell.self, forCellWithReuseIdentifier: "cell")
+        collectionView.register(CustomCell.self, forCellWithReuseIdentifier: CustomCell.id)
         collectionView.backgroundColor = .brown
     }
 
@@ -45,8 +45,8 @@ extension StatisticsViewController: UICollectionViewDelegate, UICollectionViewDa
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "cell", for: indexPath)
-        cell.backgroundColor = .green
+        guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: CustomCell.id, for: indexPath) as? CustomCell else { return UICollectionViewCell() }
+        cell.label.text = "Ok"
         return cell
     }
 }

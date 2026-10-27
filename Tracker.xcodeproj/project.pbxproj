@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1007BE4030913A5D006A9F3C /* CustomCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1007BE3F30913A53006A9F3C /* CustomCell.swift */; };
 		10316137308FBA7C00AD8D04 /* StatisticsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 10316136308FBA7B00AD8D04 /* StatisticsViewController.swift */; };
 		5A307036308E005700CBE747 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A307035308E005700CBE747 /* AppDelegate.swift */; };
 		5A307038308E005700CBE747 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A307037308E005700CBE747 /* SceneDelegate.swift */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		1007BE3F30913A53006A9F3C /* CustomCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCell.swift; sourceTree = "<group>"; };
 		10316136308FBA7B00AD8D04 /* StatisticsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatisticsViewController.swift; sourceTree = "<group>"; };
 		5A307032308E005700CBE747 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5A307035308E005700CBE747 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -64,6 +66,7 @@
 		5A307034308E005700CBE747 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				1007BE3F30913A53006A9F3C /* CustomCell.swift */,
 				10316136308FBA7B00AD8D04 /* StatisticsViewController.swift */,
 				5A307035308E005700CBE747 /* AppDelegate.swift */,
 				5A307037308E005700CBE747 /* SceneDelegate.swift */,
@@ -153,6 +156,7 @@
 				5A30703A308E005700CBE747 /* ViewController.swift in Sources */,
 				5A307036308E005700CBE747 /* AppDelegate.swift in Sources */,
 				10316137308FBA7C00AD8D04 /* StatisticsViewController.swift in Sources */,
+				1007BE4030913A5D006A9F3C /* CustomCell.swift in Sources */,
 				5AECEB18308E6EE100F08F0C /* NavigationController.swift in Sources */,
 				5AECEB16308E6BF800F08F0C /* StatisticsViewController.swift in Sources */,
 				5A307038308E005700CBE747 /* SceneDelegate.swift in Sources */,
