@@ -5,16 +5,17 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
+        guard let windowScene = scene as? UIWindowScene else { return }
 
         window = UIWindow(windowScene: windowScene)
 
-        let hasSeenOnboarding = UserDefaults.standard.bool(forKey: "hasSeenOnboarding")
-        if hasSeenOnboarding {
+        if UserDefaultsService.shared.hasSeenOnboarding {
             window?.rootViewController = TabBarController()
         } else {
-            window?.rootViewController = OnboardingViewController(transitionStyle: .scroll, navigationOrientation: .horizontal)
-            UserDefaults.standard.set(true, forKey: "hasSeenOnboarding")
+            window?.rootViewController = OnboardingViewController(
+                transitionStyle: .scroll,
+                navigationOrientation: .horizontal
+            )
         }
 
         window?.makeKeyAndVisible()

@@ -40,7 +40,7 @@ final class TrackersViewController: UIViewController {
     let stubImage: UIImageView = {
         let iv = UIImageView()
         iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.image = UIImage(named: "ilerror")
+        iv.image = .ilerror
         return iv
     }()
 

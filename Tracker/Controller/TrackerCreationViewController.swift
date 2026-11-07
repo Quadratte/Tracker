@@ -23,26 +23,13 @@ final class TrackerCreationViewController: UIViewController {
         return tf
     }()
 
-    private let categoryButton: UIButton = {
-        let b = UIButton(type: .system)
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.setTitle("Категория", for: .normal)
-        b.contentHorizontalAlignment = .left
-        b.backgroundColor = .systemGray6
-        b.layer.cornerRadius = 16
-        b.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        return b
-    }()
-
-    private let scheduleButton: UIButton = {
-        let b = UIButton(type: .system)
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.setTitle("Расписание", for: .normal)
-        b.contentHorizontalAlignment = .left
-        b.backgroundColor = .systemGray6
-        b.layer.cornerRadius = 16
-        b.contentEdgeInsets = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
-        return b
+    private let tableView: UITableView = {
+        let tv = UITableView()
+        tv.translatesAutoresizingMaskIntoConstraints = false
+        tv.layer.cornerRadius = 16
+        tv.isScrollEnabled = false
+        tv.separatorInset = UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16)
+        return tv
     }()
 
     private let cancelButton: UIButton = {
@@ -75,6 +62,9 @@ final class TrackerCreationViewController: UIViewController {
         setupConstraints()
         setupActions()
         setupKeyboardDismiss()
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
     }
 
     private func setupNavBar() {
@@ -83,8 +73,7 @@ final class TrackerCreationViewController: UIViewController {
 
     private func setupUI() {
         view.addSubview(nameTextField)
-        view.addSubview(categoryButton)
-        view.addSubview(scheduleButton)
+        view.addSubview(tableView)
         view.addSubview(cancelButton)
         view.addSubview(createButton)
     }
@@ -96,15 +85,10 @@ final class TrackerCreationViewController: UIViewController {
             nameTextField.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             nameTextField.heightAnchor.constraint(equalToConstant: 75),
 
-            categoryButton.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 24),
-            categoryButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            categoryButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            categoryButton.heightAnchor.constraint(equalToConstant: 75),
-
-            scheduleButton.topAnchor.constraint(equalTo: categoryButton.bottomAnchor, constant: 16),
-            scheduleButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            scheduleButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            scheduleButton.heightAnchor.constraint(equalToConstant: 75),
+            tableView.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 24),
+            tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
+            tableView.heightAnchor.constraint(equalToConstant: 150),
 
             cancelButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             cancelButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -16),
@@ -130,20 +114,12 @@ final class TrackerCreationViewController: UIViewController {
         createButton.addAction(UIAction { [weak self] _ in
             self?.createTracker()
         }, for: .touchUpInside)
-
-        scheduleButton.addAction(UIAction { [weak self] _ in
-            self?.openSchedule()
-        }, for: .touchUpInside)
-
-        categoryButton.addAction(UIAction { _ in
-            print("Category tapped")
-        }, for: .touchUpInside)
     }
 
     private func updateCreateButtonState() {
         let hasName = !(nameTextField.text?.isEmpty ?? true)
         createButton.isEnabled = hasName
-        createButton.backgroundColor = hasName ? .systemBlue : .systemGray
+        createButton.backgroundColor = hasName ? .ypBlack : .ypGray
     }
 
     private func openSchedule() {
@@ -178,8 +154,49 @@ final class TrackerCreationViewController: UIViewController {
     }
 }
 
+// MARK: - UITableViewDataSource & UITableViewDelegate
+extension TrackerCreationViewController: UITableViewDataSource, UITableViewDelegate {
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 2
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell.backgroundColor = .systemGray6
+        cell.accessoryType = .disclosureIndicator
+        cell.selectionStyle = .none
+
+        if indexPath.row == 0 {
+            cell.textLabel?.text = "Категория"
+        } else {
+            cell.textLabel?.text = "Расписание"
+        }
+
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+
+        if indexPath.row == 0 {
+            print("Category tapped")
+        } else {
+            openSchedule()
+        }
+    }
+
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 75
+    }
+}
+
 extension TrackerCreationViewController: ScheduleViewControllerDelegate {
     func didSelectSchedule(_ days: [Weekday]) {
         selectedSchedule = days
+        let indexPath = IndexPath(row: 1, section: 0)
+        if let cell = tableView.cellForRow(at: indexPath) {
+            cell.detailTextLabel?.text = days.map { $0.shortName }.joined(separator: ", ")
+        }
     }
 }

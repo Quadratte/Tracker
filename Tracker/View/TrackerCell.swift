@@ -108,11 +108,29 @@ final class TrackerCell: UICollectionViewCell {
     func configure(with tracker: Tracker, isCompleted: Bool, count: Int) {
         emojiLabel.text = tracker.emoji
         nameLabel.text = tracker.name
-        countLabel.text = "\(count) дней"
+        countLabel.text = daysText(count)
         cardView.backgroundColor = UIColor(named: tracker.colorName) ?? .systemBlue
         plusButton.backgroundColor = cardView.backgroundColor
 
         let imageName = isCompleted ? "checkmark" : "plus"
         plusButton.setImage(UIImage(systemName: imageName), for: .normal)
+    }
+
+    private func daysText(_ count: Int) -> String {
+        let mod10 = count % 10
+        let mod100 = count % 100
+
+        if mod100 >= 11 && mod100 <= 14 {
+            return "\(count) дней"
+        }
+
+        switch mod10 {
+        case 1:
+            return "\(count) день"
+        case 2, 3, 4:
+            return "\(count) дня"
+        default:
+            return "\(count) дней"
+        }
     }
 }

@@ -22,7 +22,8 @@ final class ScheduleViewController: UIViewController {
         b.translatesAutoresizingMaskIntoConstraints = false
         b.setTitle("Готово", for: .normal)
         b.setTitleColor(.white, for: .normal)
-        b.backgroundColor = .systemBlue
+        b.titleLabel?.font = .systemFont(ofSize: 16, weight: .medium)
+        b.backgroundColor = .ypBlack
         b.layer.cornerRadius = 16
         return b
     }()
@@ -53,7 +54,7 @@ final class ScheduleViewController: UIViewController {
             tableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 24),
             tableView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             tableView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
-            tableView.heightAnchor.constraint(equalToConstant: CGFloat(Weekday.allCases.count) * 52),
+            tableView.heightAnchor.constraint(equalToConstant: CGFloat(Weekday.allCases.count) * 75),
 
             doneButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             doneButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -71,12 +72,14 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         let day = Weekday.allCases[indexPath.row]
+        cell.backgroundColor = .ypBackground
         cell.textLabel?.text = day.shortName
         cell.selectionStyle = .none
 
         let toggle = UISwitch()
         toggle.isOn = selectedDays.contains(day)
         toggle.tag = day.rawValue
+        toggle.onTintColor = .ypBlue
         toggle.addAction(UIAction { [weak self] _ in
             guard let self else { return }
             if toggle.isOn {
@@ -93,6 +96,6 @@ extension ScheduleViewController: UITableViewDataSource, UITableViewDelegate {
     }
 
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        52
+        75
     }
 }
